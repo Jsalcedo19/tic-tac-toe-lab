@@ -51,7 +51,7 @@ let tie;
 /*------------------------ Cached Element References ------------------------*/
 //selects all square on the board
 const squareEls = document.querySelectorAll(".square");
-console.log("Square elements", squareEls);
+console.log("Square elements length", squareEls.length);
 // Meesage element to display game status
 const messageEl = document.querySelector("#message");
 console.log("Message Element:", messageEl);
@@ -59,8 +59,8 @@ console.log("Message Element:", messageEl);
 /*-------------------------------- Functions --------------------------------*/
 //initializes game state
 function init() {
-  board = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-  turn = "x";
+  board = ["", "", "", "", "", "", "", "", ""];
+  turn = "X";
   winner = false;
   tie = false;
   console.log("Game initialized");
@@ -76,26 +76,27 @@ function render() {
 //updates board display
 function updateBoard() {
   board.forEach((value, index) => {
-    squareEls[index].innerText = value;
+    if (squareEls[index]) {
+      squareEls[index].innerText = value;
+    }
   });
 }
 //updates message based on game state
 function updateMessage() {
   if (!winner && !tie) {
     //game still in progress
-    messageEl.innerText = "Player ${turn}'s turn";
+    messageEl.innerText = `Player ${turn}'s turn`;
   } else if (tie) {
     messageEl.innerText = "It's a tie!";
   } else {
-    messageEl.innerText = "Winner!!!!, Player ${turn} wins!";
+    messageEl.innerText = `Winner!!!!, Player ${turn}'s wins!`;
   }
 }
 //handles each click event on the board
 function handleClick(event) {
   const squareIndex = parseInt(event.target.id);
   // Check if the square is taken or if the game has been won
-  if (board[squareIndex] !== " " || winner)
-    return;
+  if (board[squareIndex] !== "" || winner) return;
   placePiece(squareIndex);
   checkForWinner();
   checkForTie();
@@ -106,7 +107,6 @@ function placePiece(index) {
   board[index] = turn;
   console.log(board); //testing the board
 }
-init(); //starts the game
 
 //checks if the player has won.
 function checkForWinner() {
@@ -128,12 +128,14 @@ function checkForTie() {
 function switchPlayerTurn() {
   if (winner) return;
   turn = turn === "X" ? "O" : "X";
-  console.log(turn); // testing
+  console.log("Turn:", turn); // testing
 }
 
 /*-------------------------------- event listeners --------------------------------*/
 squareEls.forEach((square) => {
-  squareEls.addeventListener("click", handleClick);
+  square.addEventListener("click", handleClick);
 });
 const resetBtnEl = document.getElementById("reset");
 resetBtnEl.addEventListener("click", init);
+
+init(); //starts the game

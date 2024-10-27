@@ -13,7 +13,7 @@ body {
     
   }
   
-  .sqr {
+  .square {
     width: 30%;
     aspect-ratio: 1/1;
     border: 3px solid black;
