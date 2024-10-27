@@ -28,13 +28,6 @@ so that I can play a new round.
 //6) Handle a player clicking a square with a `handleClick` function.
 
 //7) Create Reset functionality.
-
-
-
-
-
-
-
 */
 
 
@@ -44,43 +37,69 @@ so that I can play a new round.
 
 
 /*-------------------------------- Constants --------------------------------*/
-
-  
-
+//possible winning combos 
+const winningCombos = [
+    [0, 1, 2], // Top row
+    [3, 4, 5], // Middle row
+    [6, 7, 8], // Bottom row
+    [0, 3, 6], // Left column
+    [1, 4, 7], // Middle column
+    [2, 5, 8], // Right column
+    [0, 4, 8], // Top-left to bottom-right diagonal
+    [2, 4, 6]  // Top-right to bottom-left diagonal
+  ];
 /*---------------------------- Variables (state) ----------------------------*/
-let board = ["","","","","","","",]; 
-let turn = "X"; //represents player x
-let winner = false;
-let tie = false;
+let board; 
+let turn;
+let winner;
+let tie;
 
 /*------------------------ Cached Element References ------------------------*/
 //selects all square on the board
 const squareEls = document.querySelectorAll(".square");
+console.log("Square elements", squareEls);
 const messageEl = document.queryselector("#message");
 console.log("Message Element:", messageEl);
 
 /*-------------------------------- Functions --------------------------------*/
-//this for loop accesses each square on the game.
-squareEls.forEach((square, index) => {
-    console.log('Square ${index + 1}:', square);
-});
-
+//
 function init() {
-const board = [ [" "," "," "],
-                [" "," "," "],
-                [" "," "," "]]
-}
+const board = [ " "," "," ",
+                " "," "," ",
+                " "," "," "]
+turn = "x";
+winner = false;
+tie = false;
 console.log("Game initialized")
 
-init();
-
-function render() {
-console.log("Rendering the game state...");
+render() //calls render to update the initial game.
 
 }
 
-init()
-/*----------------------------- Event Listeners -----------------------------*/
+function render() {
+    updateBoard(); //updates the board display
+    updateMessage(); //updates the game status message
+console.log("Rendering the game state...");
+}
+
+
+function updateBoard() {
+board.forEach((value, index) => {
+    squareEls[index].innerText = value;
+})
+}
+
+function updateMessage(){
+    if(!winner && !tie) { //game still in progress
+        messageEl.innerText = "Player ${turn}'s turn";
+    } else if (tie) {
+        messageEl.innerText = "It's a tie!";
+    } else {
+        messageEl.innerText = "Winner!!!!, Player ${turn} wins!";
+    }
+}
+ init(); //starts the game
+/*-------------------------------- event listeners --------------------------------*/
 
 
 
